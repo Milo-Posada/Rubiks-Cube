@@ -1,18 +1,18 @@
-class edge_p:
+class EdgePiece:
     def __init__(self, id, orientation, colors, faces):
         self.name = id # "1"
         self.ort = orientation # [F] (defines normal for whites and yellow)
         self.colors = colors # (red, blue)
         self.faces = faces # [F, R]
     
-class corner_p:
+class CornerPiece:
     def __init__(self, id, orientation, colors, faces):
         self.name = id 
         self.ort = orientation 
         self.colors = colors # (red, blue, yellow)
         self.faces = faces # [F, R, U]
         
-class center_p:
+class CenterPiece:
     def __init__(self, id, orientation, color, face):
         self.name = id 
         self.ort = orientation

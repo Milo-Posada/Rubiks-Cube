@@ -217,11 +217,11 @@ def get_data():
             materials = tuple(slot.name[0] for slot in obj.material_slots)
 
             if obj.name in edge_pieces:
-                piece = stage_interpreter.edge_p(obj.name, faces[0], materials, faces)
+                piece = stage_interpreter.EdgePiece(obj.name, faces[0], materials, faces)
             elif obj.name in corner_pieces:
-                piece = stage_interpreter.corner_p(obj.name, faces[0], materials, faces)
+                piece = stage_interpreter.CornerPiece(obj.name, faces[0], materials, faces)
             else:
-                piece = stage_interpreter.center_p(obj.name, faces[0], materials, faces)
+                piece = stage_interpreter.CenterPiece(obj.name, faces[0], materials, faces)
 
             current_state.append(piece)
 

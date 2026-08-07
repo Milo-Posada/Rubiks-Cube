@@ -1,6 +1,26 @@
 # Force yellow daisy
-cross = {
-
+cross = { #needs alg_prespective and set up
+    "top": { 
+        #white up
+        "1": "F2",  
+        #white not up
+        "2": "U' R' F  R"
+    },
+    "middle": {
+        #white right
+        "1": "R U R'",
+        #white left
+        "2": "L' U L", 
+        #white aligned
+        "2": "F",
+        "3": "F'"
+    },
+    "bottom": { #needs alg_prespective 
+        #white not down
+        "1": "F' D R' D'",
+        #white down
+        "2": "F (Dx) F' (D'x)" #need to figure how to solve x moves
+    },
 }
 
 f2l = {
@@ -82,8 +102,56 @@ pll = {
     },
 }
 
-def alg_extraction(piece, alg):
-    if piece.ort != 'F':
-        #2alg = alg.replace("")
-        pass
-    else: return alg
+from_left = str.maketrans("FRBL", "RBLF")
+from_right = str.maketrans("FRBL", "LFRB")
+from_back = str.maketrans("FRBL", "BLFR")
+#how to mirror an alg?
+
+# Returns prespective-based moves of an algorithm
+def alg_prespective(piece_face, alg):
+    if piece_face == 'L': alg = alg.translate(from_left)
+    elif piece_face == 'R': alg = alg.translate(from_right)
+    elif piece_face == 'B': alg = alg.translate(from_back)
+    return alg
+#alg_prespective("L", oll["2OLL"]["Sune"])
+
+
+# Defines the CFOP stages
+stages = {
+    "cross": 1,
+    "f2l": 2,
+    "oll": 3,
+    "pll": 4
+}
+
+# Reverse lookup to convert numbers back to stage names
+stages_reverse = {v: k for k, v in stages.items()}
+
+# Solves the cube recursively according to the CFOP method
+def solve_cube(stage, layer):
+    print(f"Solving {stage}, Layer: {layer}")
+
+    if stage == "cross" or stage == 1:
+        print("doing layer one")
+        # solve_cube(1, 2) 
+        if layer == 2 or layer == 3:
+            solve_cube(1, 1)
+        next_stage = stages_reverse[stages[stage] + 1] if stage in stages else stage + 1
+        solve_cube(next_stage, 1)
+
+    # elif stage == "f2l" or stage == 2:
+    #     if layer == 2 or layer == 3:
+    #         solve_cube(2, 1)
+    #     next_stage = stages_reverse[stages[stage] + 1] if stage in stages else stage + 1
+    #     solve_cube(next_stage, 1)
+
+    # elif stage == "oll" or stage == 3:
+    #     next_stage = stages_reverse[stages[stage] + 1] if stage in stages else stage + 1
+    #     solve_cube(next_stage, 1)
+
+    # elif stage == "pll" or stage == 4:
+    #     next_stage = stages_reverse[stages[stage] + 1] if stage in stages else stage + 1
+    #     solve_cube(next_stage, 1)
+
+    else: print("Solved the cube!")
+solve_cube("cross", 1)
